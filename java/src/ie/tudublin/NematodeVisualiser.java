@@ -54,7 +54,7 @@ public class NematodeVisualiser extends PApplet
 		noFill();
 
 		line(0, 0, 0, -25);
-		circle(0, 0, 5);
+		circle(0, 5, 10);
 		popMatrix();
 	}
 	//draws a female()
@@ -67,6 +67,19 @@ public class NematodeVisualiser extends PApplet
 		circle(0, 0, 25);
 		popMatrix();
 	}
+	//draws eyes
+	public void drawEyes(float x, float y){
+		pushMatrix();
+		translate(x, y);
+		stroke(255);
+		noFill();
+
+		line(50, -10, sin(y)*25, cos(y)*25);
+		line(-50, -10, sin(-y)*25, cos(-y)*25);
+		circle(-55, -15, 10);
+		circle(55, -15, 10);
+		popMatrix();
+	}
 
 	public void nemLength(float x, float y, int j){
 		pushMatrix();
@@ -74,17 +87,21 @@ public class NematodeVisualiser extends PApplet
 		translate(x, y + (len *50)/2);
 		stroke(255);
 		noFill();
-
+		
+		//EYES
+		if(nematodes.get(j).isEyes()){
+			drawEyes(0,  -y+ (len *75));
+		}
 		//CIRCLES!!
-
 		for(int i = 1; i <= len; i++){
 			circle(0 , - i*50  , 50);
+			//LIMBS
 			if(nematodes.get(j).isLimbs()){
 				line(-50, - i*50, -25, - i*50);//limbs left
 				line(+50, - i*50, +25, - i*50);//limbs right
 			}
 		}
-		//System.out.print(nematodes.get(j).getGender());
+		//GENDERS
 		if(nematodes.get(j).getGender().equals("m")){
 			//System.out.print("I am here");
 			drawMale(0, 0);
@@ -97,6 +114,9 @@ public class NematodeVisualiser extends PApplet
 			drawFemale(0, -50);
 		}
 		
+	
+
+		
 
 		popMatrix();
 	}
@@ -106,7 +126,7 @@ public class NematodeVisualiser extends PApplet
 	{	
 		float cx = width/2;
 		float cy = height/2;
-		nemLength(cx, cy, 5);
+		nemLength(cx, cy, 0);
 
 	}
 }
