@@ -10,22 +10,33 @@ public class NematodeVisualiser extends PApplet
 {
 	ArrayList<Nematode> nematodes = new ArrayList<Nematode>();
 
-	private int mode;
+	int mode = 0;
 	public void keyPressed()
 	{		
-		if (keyCode == LEFT)
+		if ( keyCode == LEFT)
 		{
-		}		
+			mode--;
+		}
+		else if( keyCode == RIGHT)
+		{
+			mode++;
+		}
+		if (mode == nematodes.size()){
+			mode =0;
+		} else if (mode == -1){
+			mode = nematodes.size();
+			mode--;
+		}
 	}
-
-
+	
+	
 	public void settings()
 	{
 		size(800, 800);
 		loadNematodes();
 		
 	}
-
+	
 	public void loadNematodes(){
 		Table t = loadTable("nematodes.csv", "header");
 		for (TableRow r: t.rows()){
@@ -38,21 +49,21 @@ public class NematodeVisualiser extends PApplet
 			System.out.println(f);
 		}
 	}
-
+	
 	public void setup() 
 	{
 		colorMode(HSB);
 		background(0);
 		smooth();				
 	}
-
+	
 	//draws a male
 	public void drawMale(float x, float y){
 		pushMatrix();
 		translate(x, y);
 		stroke(255);
 		noFill();
-
+		
 		line(0, 0, 0, -25);
 		circle(0, 5, 10);
 		popMatrix();
@@ -63,7 +74,7 @@ public class NematodeVisualiser extends PApplet
 		translate(x, y);
 		stroke(255);
 		noFill();
-
+		
 		circle(0, 0, 25);
 		popMatrix();
 	}
@@ -73,15 +84,17 @@ public class NematodeVisualiser extends PApplet
 		translate(x, y);
 		stroke(255);
 		noFill();
-
+		
 		line(50, -10, sin(y)*25, cos(y)*25);
 		line(-50, -10, sin(-y)*25, cos(-y)*25);
 		circle(-55, -15, 10);
 		circle(55, -15, 10);
 		popMatrix();
 	}
-
+	
 	public void nemLength(float x, float y, int j){
+		background(0);
+		//System.out.print(nematodes.size());
 		pushMatrix();
 		int len = nematodes.get(j).getLength();
 		translate(x, y + (len *50)/2);
@@ -114,9 +127,6 @@ public class NematodeVisualiser extends PApplet
 			drawFemale(0, -50);
 		}
 		
-	
-
-		
 
 		popMatrix();
 	}
@@ -126,7 +136,7 @@ public class NematodeVisualiser extends PApplet
 	{	
 		float cx = width/2;
 		float cy = height/2;
-		nemLength(cx, cy, 0);
+		nemLength(cx, cy, mode);
 
 	}
 }
