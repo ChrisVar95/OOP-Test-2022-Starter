@@ -10,6 +10,7 @@ public class NematodeVisualiser extends PApplet
 {
 	ArrayList<Nematode> nematodes = new ArrayList<Nematode>();
 
+	private int mode;
 	public void keyPressed()
 	{		
 		if (keyCode == LEFT)
@@ -21,6 +22,7 @@ public class NematodeVisualiser extends PApplet
 	public void settings()
 	{
 		size(800, 800);
+		loadNematodes();
 		
 	}
 
@@ -44,10 +46,30 @@ public class NematodeVisualiser extends PApplet
 		smooth();				
 	}
 	
+	public void nemLength(float x, float y, int j){
+		pushMatrix();
+		translate(x, y + (nematodes.get(j).getLength() *50)/2);
+		stroke(255);
+		noFill();
+
+		//CIRCLES!!
+		if(nematodes.get(j).getLength() > 1){
+			for(int i = 1; i <= nematodes.get(j).getLength(); i++){
+				circle(i , i - i*50  , 50);
+			}
+		} else {
+			circle(0, 0, 50);
+		}
+
+		popMatrix();
+	}
 
 
 	public void draw()
 	{	
+		float cx = width/2;
+		float cy = height/2;
+		nemLength(cx, cy, 2);
 
 	}
 }
